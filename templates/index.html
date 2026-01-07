@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+<div class="hero-section">
+    <div class="hero-bg"></div>
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="hero-title racing-font">RACE BOT</h1>
+                <p class="lead mb-4">
+                    Присоединяйтесь к захватывающим гонкам, покупайте машины и соревнуйтесь с друзьями!
+                    Самая продвинутая платформа для виртуальных гонок в VK.
+                </p>
+                
+                {% if user %}
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-racing">
+                            <i class="fas fa-tachometer-alt"></i> Личный кабинет
+                        </a>
+                        <a href="{{ url_for('garage') }}" class="btn btn-outline-racing">
+                            <i class="fas fa-car"></i> Мой гараж
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="d-flex flex-wrap gap-3">
+                        <a href="{{ url_for('login') }}" class="btn btn-racing btn-lg">
+                            <i class="fas fa-sign-in-alt"></i> Войти через VK ID
+                        </a>
+                        <a href="https://vk.com/im?sel=-233724428" target="_blank" class="btn btn-outline-racing btn-lg">
+                            <i class="fas fa-robot"></i> Начать в VK
+                        </a>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-lg-6 text-center">
+                <div class="float mt-5 mt-lg-0">
+                    <i class="fas fa-flag-checkered display-1 text-gradient"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-5 py-5">
+    <div class="row">
+        <div class="col-12 text-center mb-5">
+            <h2 class="section-title">Почему выбирают нас?</h2>
+        </div>
+    </div>
+    
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="feature-card text-center p-4 h-100">
+                <div class="mb-3">
+                    <i class="fas fa-bolt fa-3x text-gradient"></i>
+                </div>
+                <h4>Мгновенные гонки</h4>
+                <p>Начните гонку в один клик и соревнуйтесь с реальными игроками</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card text-center p-4 h-100">
+                <div class="mb-3">
+                    <i class="fas fa-car fa-3x text-gradient"></i>
+                </div>
+                <h4>Большой выбор машин</h4>
+                <p>Коллекционируйте, улучшайте и кастомизируйте автомобили</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card text-center p-4 h-100">
+                <div class="mb-3">
+                    <i class="fas fa-trophy fa-3x text-gradient"></i>
+                </div>
+                <h4>Турниры и награды</h4>
+                <p>Участвуйте в турнирах и получайте эксклюзивные награды</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if not user %}
+<div class="bg-dark-light py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <h3 class="racing-font">Готовы начать гонку?</h3>
+                <p class="mb-0">Присоединяйтесь к тысячам гонщиков прямо сейчас!</p>
+            </div>
+            <div class="col-md-4 text-end">
+                <a href="{{ url_for('login') }}" class="btn btn-racing btn-lg">
+                    <i class="fas fa-play-circle"></i> Начать сейчас
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

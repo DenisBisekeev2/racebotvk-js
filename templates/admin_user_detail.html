@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block title %}Пользователь {{ user_id }} - Админ-панель{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0"><i class="fas fa-user"></i> Информация</h5>
+            </div>
+            <div class="card-body text-center">
+                {% if vk_info.photo %}
+                <img src="{{ vk_info.photo }}" class="rounded-circle mb-3" width="100" height="100" alt="Фото">
+                {% else %}
+                <i class="fas fa-user-circle fa-5x text-muted mb-3"></i>
+                {% endif %}
+                
+                <h5>{{ vk_info.first_name }} {{ vk_info.last_name }}</h5>
+                <p class="text-muted">ID: {{ user_id }}</p>
+                
+                {% if ban_info %}
+                <div class="alert alert-danger">
+                    <i class="fas fa-ban"></i>
+                    <strong>Заблокирован</strong><br>
+                    Причина: {{ ban_info.reason }}<br>
+                    На {{ ban_info.days }} дней
+                </div>
+                {% else %}
+                <div class="alert alert-success">
+                    <i class="fas fa-check-circle"></i>
+                    <strong>Активен</strong>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    {% if ban_info %}
+                    <button class="btn btn-success" onclick="unbanUser('{{ user_id }}')">
+                        <i class="fas fa-unlock"></i> Разблокировать
+                    </button>
+                    {% else %}
+                    <button class="btn btn-warning" onclick="showBanModal('{{ user_id }}')">
+                        <i class="fas fa-ban"></i> Заблокировать
+                    </button>
+                    {% endif %}
+                    
+                    {% if can_edit_admins(session.user_id) %}
+                    <button class="btn btn-info" onclick="showMakeAdminModal('{{ user_id }}')">
+                        <i class="fas fa-user-shield"></i> Назначить админом
+                    </button>
+                    {% endif %}
+                    
+                    <a href="{{ url_for('admin_users') }}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Назад к списку
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="fas fa-cog"></i> Данные пользователя</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Параметр</th>
+                                <th>Значение</th>
+                                <th>Действие</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for field, value in user.items() %}
+                            <tr>
+                                <td><strong>{{ field }}</strong></td>
+                                <td>
+                                    {% if field in ['cars', 'car_colors'] %}
+                                        <code>{{ value | tojson }}</code>
+                                    {% else %}
+                                        {{ value }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <button class="btn btn-sm btn-outline-primary" 
+                                            onclick="editField('{{ field }}', `{{ value | tojson | safe }}`)">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальные окна (такие же как в admin_users.html) -->
+{% include 'admin_modals.html' %}
+
+<!-- Модальное окно редактирования -->
+<div class="modal fade" id="editModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Редактирование поля</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editForm">
+                    <input type="hidden" id="editField" name="field">
+                    <input type="hidden" name="user_id" value="{{ user_id }}">
+                    <div class="mb-3">
+                        <label for="editValue" class="form-label" id="editFieldLabel">Значение:</label>
+                        <textarea class="form-control" id="editValue" name="value" rows="3" required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-primary" onclick="saveField()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function editField(field, currentValue) {
+    document.getElementById('editField').value = field;
+    document.getElementById('editFieldLabel').textContent = 'Значение ' + field + ':';
+    document.getElementById('editValue').value = currentValue;
+    new bootstrap.Modal(document.getElementById('editModal')).show();
+}
+
+function saveField() {
+    const formData = new FormData(document.getElementById('editForm'));
+    
+    fetch('/admin/update_user_field', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert('Ошибка: ' + data.error);
+        }
+    });
+}
+
+// Функции banUser, unbanUser, makeAdmin такие же как в admin_users.html
+</script>
+{% endblock %}

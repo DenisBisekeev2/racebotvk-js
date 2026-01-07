@@ -1,0 +1,58 @@
+<!-- Модальное окно бана -->
+<div class="modal fade" id="banModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Блокировка пользователя</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="banForm">
+                    <input type="hidden" id="banUserId" name="user_id">
+                    <div class="mb-3">
+                        <label for="banDays" class="form-label">Количество дней:</label>
+                        <input type="number" class="form-control" id="banDays" name="days" value="1" min="1" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="banReason" class="form-label">Причина:</label>
+                        <textarea class="form-control" id="banReason" name="reason" rows="3" required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-danger" onclick="banUser()">Заблокировать</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно назначения админа -->
+<div class="modal fade" id="makeAdminModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Назначение администратора</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="makeAdminForm">
+                    <input type="hidden" id="adminUserId" name="user_id">
+                    <div class="mb-3">
+                        <label for="adminRole" class="form-label">Роль:</label>
+                        <select class="form-control" id="adminRole" name="role" required>
+                            <option value="moder">Модератор</option>
+                            <option value="gl.moder">Главный модератор</option>
+                            <option value="zam">Заместитель</option>
+                            <option value="admin">Администратор</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-warning" onclick="makeAdmin()">Назначить</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,334 @@
+{% extends "base.html" %}
+
+{% block title %}Пользователи - Админ-панель{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                <h4 class="mb-0"><i class="fas fa-users"></i> Управление пользователями</h4>
+                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-sm btn-outline-light">
+                    <i class="fas fa-arrow-left"></i> Назад
+                </a>
+            </div>
+            <div class="card-body">
+                <!-- Поиск пользователей -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <input type="text" id="searchInput" class="form-control" placeholder="Поиск по имени пользователя...">
+                            <button class="btn btn-outline-secondary" type="button" onclick="searchUsers()">
+                                <i class="fas fa-search"></i> Поиск
+                            </button>
+                            <button class="btn btn-outline-secondary" type="button" onclick="clearSearch()">
+                                <i class="fas fa-times"></i> Очистить
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Фото</th>
+                                <th>ID</th>
+                                <th>Имя</th>
+                                <th>Баланс</th>
+                                <th>Уровень</th>
+                                <th>Статус</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTableBody">
+                            {% for user in users %}
+                            <tr>
+                                <td>
+                                    {% if user.vk_info.photo %}
+                                    <img src="{{ user.vk_info.photo }}" class="rounded-circle" width="40" height="40" alt="Фото">
+                                    {% else %}
+                                    <i class="fas fa-user-circle fa-2x text-muted"></i>
+                                    {% endif %}
+                                </td>
+                                <td><code>{{ user.vk_info.id }}</code></td>
+                                <td>
+                                    {{ user.vk_info.first_name }} {{ user.vk_info.last_name }}
+                                </td>
+                                <td>{{ user.money }}₽</td>
+                                <td>{{ user.level }}</td>
+                                <td>
+                                    {% if user.is_banned %}
+                                    <span class="badge bg-danger">Забанен</span>
+                                    {% else %}
+                                    <span class="badge bg-success">Активен</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <a href="{{ url_for('admin_user_detail', user_id=user.vk_info.id) }}" 
+                                           class="btn btn-primary">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        {% if user.is_banned %}
+                                        <button class="btn btn-success" 
+                                                onclick="unbanUser('{{ user.vk_info.id }}')">
+                                            <i class="fas fa-unlock"></i>
+                                        </button>
+                                        {% else %}
+                                        <button class="btn btn-warning" 
+                                                onclick="showBanModal('{{ user.vk_info.id }}')">
+                                            <i class="fas fa-ban"></i>
+                                        </button>
+                                        {% endif %}
+                                        {% if can_edit_admins(session.user_id) %}
+                                        <button class="btn btn-info" 
+                                                onclick="showMakeAdminModal('{{ user.vk_info.id }}')">
+                                            <i class="fas fa-user-shield"></i>
+                                        </button>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно бана -->
+<div class="modal fade" id="banModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Блокировка пользователя</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="banForm">
+                    <input type="hidden" id="banUserId" name="user_id">
+                    <div class="mb-3">
+                        <label for="banDays" class="form-label">Количество дней:</label>
+                        <input type="number" class="form-control" id="banDays" name="days" value="1" min="1" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="banReason" class="form-label">Причина:</label>
+                        <textarea class="form-control" id="banReason" name="reason" rows="3" required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-danger" onclick="banUser()">Заблокировать</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно назначения админа -->
+<div class="modal fade" id="makeAdminModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Назначение администратора</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="makeAdminForm">
+                    <input type="hidden" id="adminUserId" name="user_id">
+                    <div class="mb-3">
+                        <label for="adminRole" class="form-label">Роль:</label>
+                        <select class="form-control" id="adminRole" name="role" required>
+                            <option value="moder">Модератор</option>
+                            <option value="gl.moder">Главный модератор</option>
+                            <option value="zam">Заместитель</option>
+                            <option value="admin">Администратор</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-warning" onclick="makeAdmin()">Назначить</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Функция для поиска пользователей
+function searchUsers() {
+    const searchTerm = document.getElementById('searchInput').value.trim();
+    
+    if (searchTerm === '') {
+        alert('Введите имя для поиска');
+        return;
+    }
+    
+    fetch(`/admin/search_users?q=${encodeURIComponent(searchTerm)}`)
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            updateUsersTable(data.users);
+        } else {
+            alert('Ошибка при поиске: ' + data.error);
+        }
+    })
+    .catch(error => {
+        console.error('Ошибка:', error);
+        alert('Произошла ошибка при поиске');
+    });
+}
+
+// Функция для очистки поиска
+function clearSearch() {
+    document.getElementById('searchInput').value = '';
+    // Перезагружаем страницу для отображения всех пользователей
+    location.reload();
+}
+
+// Функция для обновления таблицы пользователей
+function updateUsersTable(users) {
+    const tbody = document.getElementById('usersTableBody');
+    tbody.innerHTML = '';
+    
+    if (users.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" class="text-center">Пользователи не найдены</td></tr>';
+        return;
+    }
+    
+    users.forEach(user => {
+        const row = document.createElement('tr');
+        
+        // Фото
+        let photoHtml = '';
+        if (user.vk_info.photo) {
+            photoHtml = `<img src="${user.vk_info.photo}" class="rounded-circle" width="40" height="40" alt="Фото">`;
+        } else {
+            photoHtml = '<i class="fas fa-user-circle fa-2x text-muted"></i>';
+        }
+        
+        // Статус
+        const statusHtml = user.is_banned 
+            ? '<span class="badge bg-danger">Забанен</span>'
+            : '<span class="badge bg-success">Активен</span>';
+        
+        // Действия
+        let banButtonHtml = '';
+        if (user.is_banned) {
+            banButtonHtml = `<button class="btn btn-success" onclick="unbanUser('${user.vk_info.id}')">
+                                <i class="fas fa-unlock"></i>
+                            </button>`;
+        } else {
+            banButtonHtml = `<button class="btn btn-warning" onclick="showBanModal('${user.vk_info.id}')">
+                                <i class="fas fa-ban"></i>
+                            </button>`;
+        }
+        
+        // Кнопка назначения админа (если доступно)
+        const adminButtonHtml = {% if can_edit_admins(session.user_id) %} 
+            `<button class="btn btn-info" onclick="showMakeAdminModal('${user.vk_info.id}')">
+                <i class="fas fa-user-shield"></i>
+            </button>`
+            {% else %} '' {% endif %};
+        
+        row.innerHTML = `
+            <td>${photoHtml}</td>
+            <td><code>${user.vk_info.id}</code></td>
+            <td>${user.vk_info.first_name} ${user.vk_info.last_name}</td>
+            <td>${user.money}₽</td>
+            <td>${user.level}</td>
+            <td>${statusHtml}</td>
+            <td>
+                <div class="btn-group btn-group-sm">
+                    <a href="/admin/user/${user.vk_info.id}" class="btn btn-primary">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    ${banButtonHtml}
+                    ${adminButtonHtml}
+                </div>
+            </td>
+        `;
+        
+        tbody.appendChild(row);
+    });
+}
+
+// Поиск при нажатии Enter
+document.getElementById('searchInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        searchUsers();
+    }
+});
+
+// Остальные функции остаются без изменений
+function showBanModal(userId) {
+    document.getElementById('banUserId').value = userId;
+    new bootstrap.Modal(document.getElementById('banModal')).show();
+}
+
+function showMakeAdminModal(userId) {
+    document.getElementById('adminUserId').value = userId;
+    new bootstrap.Modal(document.getElementById('makeAdminModal')).show();
+}
+
+function banUser() {
+    const formData = new FormData(document.getElementById('banForm'));
+    
+    fetch('/admin/ban_user', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert('Ошибка: ' + data.error);
+        }
+    });
+}
+
+function unbanUser(userId) {
+    if (!confirm('Разблокировать пользователя?')) return;
+    
+    const formData = new FormData();
+    formData.append('user_id', userId);
+    
+    fetch('/admin/unban_user', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert('Ошибка: ' + data.error);
+        }
+    });
+}
+
+function makeAdmin() {
+    const formData = new FormData(document.getElementById('makeAdminForm'));
+    
+    fetch('/admin/make_admin', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        } else {
+            alert('Ошибка: ' + data.error);
+        }
+    });
+}
+</script>
+{% endblock %}

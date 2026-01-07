@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block title %}Статус оплаты{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0"><i class="fas fa-credit-card"></i> Статус оплаты</h4>
+            </div>
+            <div class="card-body text-center">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            {% if category == 'success' %}
+                                <div class="alert alert-success">
+                                    <i class="fas fa-check-circle fa-2x mb-3"></i>
+                                    <h5 class="text-success">Оплата прошла успешно!</h5>
+                                    <p>{{ message }}</p>
+                                    <p class="text-muted small">Бонусы уже на вашем счету!</p>
+                                    <a href="{{ url_for('dashboard') }}" class="btn btn-success">
+                                        <i class="fas fa-tachometer-alt"></i> Вернуться в кабинет
+                                    </a>
+                                </div>
+                            {% elif category == 'error' %}
+                                <div class="alert alert-danger">
+                                    <i class="fas fa-times-circle fa-2x mb-3"></i>
+                                    <h5 class="text-danger">Ошибка</h5>
+                                    <p>{{ message }}</p>
+                                    <a href="{{ url_for('dashboard') }}" class="btn btn-primary">
+                                        <i class="fas fa-arrow-left"></i> Вернуться назад
+                                    </a>
+                                </div>
+                            {% else %}
+                                <div class="alert alert-info">
+                                    <i class="fas fa-info-circle fa-2x mb-3"></i>
+                                    <p>{{ message }}</p>
+                                    <a href="{{ url_for('dashboard') }}" class="btn btn-info">
+                                        <i class="fas fa-home"></i> На главную
+                                    </a>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    {% else %}
+                        <!-- Если нет flash сообщений, показываем загрузку -->
+                        <div id="payment-status">
+                            <div class="spinner-border text-primary mb-3" role="status">
+                                <span class="visually-hidden">Проверка оплаты...</span>
+                            </div>
+                            <h5>Обрабатываем платеж...</h5>
+                            <p class="text-muted">Пожалуйста, подождите несколько секунд</p>
+                        </div>
+                        
+                        <div id="success-message" style="display: none;">
+                            <i class="fas fa-check-circle fa-3x text-success mb-3"></i>
+                            <h5 class="text-success">Оплата подтверждена!</h5>
+                            <p id="success-text"></p>
+                            <a href="{{ url_for('dashboard') }}" class="btn btn-success">
+                                <i class="fas fa-tachometer-alt"></i> Вернуться в кабинет
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endwith %}
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-body text-center">
+                <small class="text-muted">
+                    <i class="fas fa-info-circle"></i>
+                    Если бонусы не появились в течение 2 минут, напишите в поддержку бота
+                </small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+// Автоматическая проверка статуса
+function checkPaymentStatus() {
+    fetch('/check_payment_status')
+        .then(response => response.json())
+        .then(data => {
+            if (data.status === 'success' || data.status === 'completed') {
+                // Показываем успех
+                document.getElementById('payment-status').style.display = 'none';
+                document.getElementById('success-message').style.display = 'block';
+                if (data.message) {
+                    document.getElementById('success-text').textContent = data.message;
+                }
+            }
+            // Если pending - ничего не делаем, пользователь уже видит успех через flash
+        })
+        .catch(error => {
+            console.log('Ошибка проверки статуса:', error);
+        });
+}
+
+// Запускаем проверку если нет flash сообщений
+{% if not get_flashed_messages() %}
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(checkPaymentStatus, 1000);
+});
+{% endif %}
+</script>
+{% endblock %}

@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block title %}Администраторы - Админ-панель{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                <h4 class="mb-0"><i class="fas fa-user-shield"></i> Управление администраторами</h4>
+                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-sm btn-outline-light">
+                    <i class="fas fa-arrow-left"></i> Назад
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Фото</th>
+                                <th>ID</th>
+                                <th>Имя</th>
+                                <th>Роль</th>
+                                <th>Права</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for admin in admins %}
+                            <tr>
+                                <td>
+                                    {% if admin.vk_info.photo %}
+                                    <img src="{{ admin.vk_info.photo }}" class="rounded-circle" width="40" height="40" alt="Фото">
+                                    {% else %}
+                                    <i class="fas fa-user-circle fa-2x text-muted"></i>
+                                    {% endif %}
+                                </td>
+                                <td><code>{{ admin.vk_info.id }}</code></td>
+                                <td>
+                                    {{ admin.vk_info.first_name }} {{ admin.vk_info.last_name }}
+                                </td>
+                                <td>
+                                    <span class="badge bg-{{ 
+                                        'danger' if admin.status == 'owner' else 
+                                        'warning' if admin.status == 'zam' else 
+                                        'info' if admin.status == 'gl.moder' else 
+                                        'secondary' 
+                                    }}">
+                                        {{ admin.status }}
+                                    </span>
+                                </td>
+                                <td>
+                                    {% for perm in admin.perm %}
+                                    <span class="badge bg-light text-dark">{{ perm }}</span>
+                                    {% endfor %}
+                                </td>
+                                <td>
+                                    <div class="btn-group btn-group-sm">
+                                        <button class="btn btn-warning" 
+                                                onclick="editAdmin('{{ admin.id }}')">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        {% if admin.id != '819016396' and admin.id != session.user_id %}
+                                        <button class="btn btn-danger" 
+                                                onclick="removeAdmin('{{ admin.id }}')">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                        {% endif %}
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно редактирования админа -->
+<div class="modal fade" id="editAdminModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Редактирование администратора</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editAdminForm">
+                    <input type="hidden" id="editAdminId" name="user_id">
+                    <div class="mb-3">
+                        <label for="editAdminRole" class="form-label">Роль:</label>
+                        <select class="form-control" id="editAdminRole" name="role" required>
+                            <option value="moder">Модератор</option>
+                            <option value="gl.moder">Главный модератор</option>
+                            <option value="zam">Заместитель</option>
+                            <option value="admin">Администратор</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Права:</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="permBasic" name="perm" value="basic" checked>
+                            <label class="form-check-label" for="permBasic">Базовые права</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="permAdminsEdit" name="perm" value="can_admins_edit">
+                            <label class="form-check-label" for="permAdminsEdit">Редактирование админов</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="permAll" name="perm" value="all">
+                            <label class="form-check-label" for="permAll">Все права</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-primary" onclick="updateAdmin()">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function editAdmin(userId) {
+    // Здесь должна быть логика загрузки текущих данных админа
+    document.getElementById('editAdminId').value = userId;
+    new bootstrap.Modal(document.getElementById('editAdminModal')).show();
+}
+
+function removeAdmin(userId) {
+    if (!confirm('Удалить администратора?')) return;
+    
+    // Здесь должна быть логика удаления админа
+    alert('Функция удаления будет реализована позже');
+}
+
+function updateAdmin() {
+    // Здесь должна быть логика обновления админа
+    alert('Функция обновления будет реализована позже');
+}
+</script>
+{% endblock %}

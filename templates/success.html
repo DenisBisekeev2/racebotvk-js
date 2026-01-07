@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Гонки Бот - Успешная покупка{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-16">
+    <div class="max-w-2xl mx-auto text-center">
+        <div class="bg-green-100 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
+            <i class="fas fa-check text-green-600 text-3xl"></i>
+        </div>
+        
+        <h1 class="text-4xl font-bold text-gray-800 mb-4">Покупка успешна! 🎉</h1>
+        
+        <p class="text-xl text-gray-600 mb-8">
+            Ваш донат-пакет успешно применен к аккаунту. 
+            Бонусы уже доступны в боте!
+        </p>
+        
+        <div class="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
+            <h2 class="text-lg font-semibold text-blue-800 mb-3">Что дальше?</h2>
+            <ul class="text-blue-700 text-left space-y-2">
+                <li class="flex items-center">
+                    <i class="fas fa-robot mr-2"></i>
+                    Вернитесь в бота и проверьте свои бонусы
+                </li>
+                <li class="flex items-center">
+                    <i class="fas fa-car mr-2"></i>
+                    Новые машины уже в вашем гараже
+                </li>
+                <li class="flex items-center">
+                    <i class="fas fa-money-bill-wave mr-2"></i>
+                    Деньги добавлены к вашему балансу
+                </li>
+            </ul>
+        </div>
+        
+        <div class="space-x-4">
+            <a href="{{ url_for('dashboard') }}" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-lg font-semibold transition">
+                В личный кабинет
+            </a>
+            <a href="{{ url_for('packages') }}" class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-semibold transition">
+                Еще пакеты
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,190 @@
+{% extends "base.html" %}
+
+{% block title %}Покупка денег{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0"><i class="fas fa-money-bill-wave"></i> Покупка игровых денег</h4>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Курс:</strong> 1 реальный рубль = 50 игровых рублей
+                </div>
+                
+                <form id="moneyForm">
+                    <div class="mb-3">
+                        <label for="moneyAmount" class="form-label">Сколько игровых рублей нужно?</label>
+                        <div class="input-group">
+                            <input type="number" 
+                                   class="form-control" 
+                                   id="moneyAmount" 
+                                   name="money_amount"
+                                   min="50" 
+                                   max="1000000"
+                                   step="50"
+                                   placeholder="Введите сумму"
+                                   required>
+                            <span class="input-group-text">₽</span>
+                        </div>
+                        <div class="form-text">Минимум 50 рублей (1 реальный рубль)</div>
+                    </div>
+                    
+                    <button type="button" onclick="calculatePrice()" class="btn btn-primary w-100 mb-3">
+                        <i class="fas fa-calculator"></i> Рассчитать стоимость
+                    </button>
+                </form>
+                
+                <div id="calculationResult" style="display: none;">
+                    <div class="alert alert-success">
+                        <h6>Детали покупки:</h6>
+                        <p id="resultDetails"></p>
+                        <div class="d-grid gap-2">
+                            <button type="button" onclick="createPayment()" class="btn btn-success">
+                                <i class="fas fa-credit-card"></i> Перейти к оплате
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="errorAlert" class="alert alert-danger" style="display: none;">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span id="errorText"></span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card mt-3">
+            <div class="card-body">
+                <h6><i class="fas fa-lightbulb"></i> Примеры:</h6>
+                <div class="row text-center">
+                    <div class="col-4">
+                        <div class="border rounded p-2">
+                            <div class="fw-bold">100₽</div>
+                            <small class="text-muted">= 5,000₽</small>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="border rounded p-2">
+                            <div class="fw-bold">500₽</div>
+                            <small class="text-muted">= 25,000₽</small>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="border rounded p-2">
+                            <div class="fw-bold">1,000₽</div>
+                            <small class="text-muted">= 50,000₽</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+let currentCalculation = null;
+
+function calculatePrice() {
+    const moneyAmount = document.getElementById('moneyAmount').value;
+    
+    if (!moneyAmount || moneyAmount < 50) {
+        showError('Введите сумму не менее 50 рублей');
+        return;
+    }
+    
+    // Показываем загрузку
+    const calculateBtn = document.querySelector('button[onclick="calculatePrice()"]');
+    calculateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Расчет...';
+    calculateBtn.disabled = true;
+    
+    fetch('/calculate_money_price', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `money_amount=${moneyAmount}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            currentCalculation = data;
+            showCalculationResult(data);
+        } else {
+            showError(data.error);
+        }
+    })
+    .catch(error => {
+        showError('Ошибка соединения');
+    })
+    .finally(() => {
+        calculateBtn.innerHTML = '<i class="fas fa-calculator"></i> Рассчитать стоимость';
+        calculateBtn.disabled = false;
+    });
+}
+
+function showCalculationResult(data) {
+    document.getElementById('errorAlert').style.display = 'none';
+    
+    const resultElement = document.getElementById('resultDetails');
+    resultElement.innerHTML = `
+        <strong>Вы получаете:</strong> ${data.requested_money.toLocaleString()} игровых рублей<br>
+        <strong>Стоимость:</strong> ${data.price} реальных рублей<br>
+        <small class="text-muted">${data.course}</small>
+    `;
+    
+    document.getElementById('calculationResult').style.display = 'block';
+}
+
+function createPayment() {
+    if (!currentCalculation) {
+        showError('Сначала рассчитайте стоимость');
+        return;
+    }
+    
+    const payBtn = document.querySelector('button[onclick="createPayment()"]');
+    payBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Создание платежа...';
+    payBtn.disabled = true;
+    
+    fetch('/create_money_payment', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: `money_amount=${currentCalculation.requested_money}&price=${currentCalculation.price}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            window.location.href = data.payment_url;
+        } else {
+            showError(data.error);
+        }
+    })
+    .catch(error => {
+        showError('Ошибка создания платежа');
+    })
+    .finally(() => {
+        payBtn.innerHTML = '<i class="fas fa-credit-card"></i> Перейти к оплате';
+        payBtn.disabled = false;
+    });
+}
+
+function showError(message) {
+    document.getElementById('errorText').textContent = message;
+    document.getElementById('errorAlert').style.display = 'block';
+    document.getElementById('calculationResult').style.display = 'none';
+}
+
+// Быстрый выбор суммы
+function setQuickAmount(amount) {
+    document.getElementById('moneyAmount').value = amount;
+    calculatePrice();
+}
+</script>
+{% endblock %}

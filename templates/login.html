@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0"><i class="fas fa-sign-in-alt"></i> Вход через VK ID</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="user_id" class="form-label">Ваш VK ID:</label>
+                        <input type="number" class="form-control" id="user_id" name="user_id"
+                               placeholder="Введите ваш цифровой ID" required>
+                        <div class="form-text">
+                            Чтобы узнать ваш ID, напишите боту в ЛС команду "меню" и посмотрите в статистике
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-sign-in-alt"></i> Войти
+                    </button>
+                </form>
+
+                <hr>
+
+                <div class="alert alert-info">
+                    <h6><i class="fas fa-info-circle"></i> Как найти свой VK ID?</h6>
+                    <ol class="small">
+                        <li>Напишите боту в личные сообщения</li>
+                        <li>Отправьте команду "мой айди"</li>
+                        <li>Бот напишет вам ваш айди</li>
+                        <li>Используйте его для входа на сайт</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

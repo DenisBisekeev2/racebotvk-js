@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Вход в админ-панель{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-dark text-white">
+                <h4 class="mb-0"><i class="fas fa-shield-alt"></i> Вход в админ-панель</h4>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <strong>Внимание:</strong> Для доступа к админ-панели требуется секретный код.
+                </div>
+
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="secret_code" class="form-label">Секретный код:</label>
+                        <input type="text"
+                               class="form-control"
+                               id="secret_code"
+                               name="secret_code"
+                               placeholder="Введите секретный код"
+                               required>
+                        <div class="form-text">
+
+                        </div>
+                    </div>
+
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-sign-in-alt"></i> Войти
+                        </button>
+                        <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Назад
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

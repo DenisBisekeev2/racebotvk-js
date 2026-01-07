@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Гонки Бот - Пакеты{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-4xl font-bold text-center mb-4">Донат пакеты</h1>
+    <p class="text-xl text-gray-600 text-center mb-12 max-w-2xl mx-auto">
+        Выберите подходящий пакет и получите эксклюзивные преимущества в гоночном боте
+    </p>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+        {% for package_type, package in packages.items() %}
+        <div class="package-card bg-white rounded-2xl shadow-xl overflow-hidden border-4 border-{{ package.color }}-300 transform hover:scale-105">
+            <!-- Заголовок -->
+            <div class="bg-{{ package.color }}-600 text-white py-6 text-center relative">
+                {% if package_type == 'vip' %}
+                <div class="absolute top-0 right-0 bg-yellow-500 text-white px-3 py-1 text-sm font-bold transform rotate-12 translate-x-2 -translate-y-2">
+                    POPULAR
+                </div>
+                {% endif %}
+                <h3 class="text-2xl font-bold">{{ package.name }}</h3>
+                <div class="text-3xl font-bold mt-2">{{ package.price }} ₽</div>
+                <div class="text-{{ package.color }}-200 text-sm mt-1">{{ package.description }}</div>
+            </div>
+
+            <!-- Содержимое -->
+            <div class="p-6">
+                <ul class="space-y-4 mb-8">
+                    <li class="flex items-center text-lg">
+                        <i class="fas fa-money-bill-wave text-green-500 mr-3 text-xl"></i>
+                        <span class="font-semibold">{{ "{:,}".format(package.money).replace(",", " ") }} ₽</span>
+                    </li>
+
+                    {% for car in package.cars %}
+                    <li class="flex items-center text-lg">
+                        <i class="fas fa-car text-blue-500 mr-3 text-xl"></i>
+                        <span>{{ car }}</span>
+                    </li>
+                    {% endfor %}
+
+                    {% if package.premium_days > 0 %}
+                    <li class="flex items-center text-lg">
+                        <i class="fas fa-crown text-yellow-500 mr-3 text-xl"></i>
+                        <span>Premium {{ package.premium_days }} дней</span>
+                    </li>
+                    {% endif %}
+
+                    <li class="flex items-center text-lg">
+                        <i class="fas fa-bolt text-purple-500 mr-3 text-xl"></i>
+                        <span>Мгновенная доставка</span>
+                    </li>
+                </ul>
+
+                <a href="{{ url_for('buy_package', package_type=package_type) }}"
+                   class="block w-full bg-{{ package.color }}-600 hover:bg-{{ package.color }}-700 text-white text-center py-4 rounded-xl font-bold text-lg transition duration-300">
+                    Купить сейчас
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- FAQ -->
+    <div class="bg-white rounded-2xl shadow-lg p-8 max-w-4xl mx-auto">
+        <h2 class="text-2xl font-bold mb-6 text-center">Частые вопросы</h2>
+
+        <div class="space-y-4">
+            <div class="border-b pb-4">
+                <h3 class="font-semibold text-lg mb-2">Как быстро придут бонусы?</h3>
+                <p class="text-gray-600">Бонусы применяются мгновенно после успешной оплаты.</p>
+            </div>
+
+            <div class="border-b pb-4">
+                <h3 class="font-semibold text-lg mb-2">Нужно ли перезаходить в бота?</h3>
+                <p class="text-gray-600">Нет, бонусы применяются автоматически к вашему аккаунту.</p>
+            </div>
+
+            <div class="border-b pb-4">
+                <h3 class="font-semibold text-lg mb-2">Что если возникли проблемы?</h3>
+                <p class="text-gray-600">Обратитесь в поддержку бота в VK, мы поможем в течение 24 часов.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

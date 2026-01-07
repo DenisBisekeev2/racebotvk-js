@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}Личный кабинет{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="section-title">Личный кабинет</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card mb-4 border-gradient">
+            <div class="card-header bg-transparent">
+                <h5 class="mb-0"><i class="fas fa-user"></i> Профиль</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="flex-shrink-0">
+                        <i class="fas fa-user-circle fa-3x text-gradient"></i>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h5 class="mb-0">{{ user.username }}</h5>
+                        <small class="text-muted">ID: {{ session.user_id }}</small>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between mb-1">
+                        <span>Баланс:</span>
+                        <span class="fw-bold text-success">{{ user.money }} руб.</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-1">
+                        <span>Уровень:</span>
+                        <span class="fw-bold text-primary">{{ user.level }}</span>
+                    </div>
+                    <div class="d-flex justify-content-between mb-1">
+                        <span>Машин в гараже:</span>
+                        <span class="fw-bold text-info">{{ user.cars|length }}</span>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <small class="text-muted">Опыт:</small>
+                    <div class="progress mt-1">
+                        <div class="progress-bar" style="width: {{ (user.exp / 100) * 100 }}%"></div>
+                    </div>
+                    <div class="d-flex justify-content-between mt-1">
+                        <small>{{ user.exp }}/100</small>
+                        <small>{{ ((user.exp / 100) * 100)|round }}%</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card border-gradient">
+            <div class="card-header bg-transparent">
+                <h5 class="mb-0"><i class="fas fa-bolt"></i> Быстрые действия</h5>
+            </div>
+            <div class="card-body">
+                <div class="d-grid gap-2">
+                    <a href="{{ url_for('buy_money') }}" class="btn btn-outline-warning">
+                        <i class="fas fa-money-bill-wave"></i> Купить деньги
+                    </a>
+                    <a href="{{ url_for('garage') }}" class="btn btn-outline-primary">
+                        <i class="fas fa-car"></i> Мой гараж
+                    </a>
+                    <a href="https://vk.com/im?sel=-233724428" target="_blank" class="btn btn-outline-success">
+                        <i class="fas fa-comments"></i> Написать боту
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card border-gradient">
+            <div class="card-header bg-transparent">
+                <h5 class="mb-0"><i class="fas fa-gift"></i> Донат наборы</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    {% for package_type, package in packages.items() %}
+                    <div class="col-lg-6 mb-4">
+                        <div class="package-card h-100">
+                            <div class="card-body text-center d-flex flex-column">
+                                <h5 class="card-title">{{ package.name }}</h5>
+                                <p class="text-muted flex-grow-1">{{ package.description }}</p>
+
+                                <div class="mb-3">
+                                    <span class="h4 text-gradient fw-bold">{{ package.price }} руб.</span>
+                                </div>
+
+                                <ul class="list-unstyled small mb-3">
+                                    <li class="mb-2">
+                                        <i class="fas fa-money-bill-wave text-success me-2"></i>
+                                        +{{ package.money }} руб.
+                                    </li>
+                                    {% if package.cars %}
+                                        {% for car in package.cars %}
+                                            <li class="mb-1">
+                                                <i class="fas fa-car text-info me-2"></i>
+                                                {{ car }}
+                                            </li>
+                                        {% endfor %}
+                                    {% endif %}
+                                </ul>
+
+                                <div class="mt-auto">
+                                    <a href="{{ url_for('buy_package', package_type=package_type) }}"
+                                       class="btn btn-racing w-100">
+                                        <i class="fas fa-shopping-cart"></i> Купить за {{ package.price }} руб.
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="alert alert-warning mt-3">
+                    <small>
+                        <i class="fas fa-exclamation-triangle"></i>
+                        После покупки набор будет автоматически применен к вашему аккаунту.
+                        Деньги и машины появятся мгновенно.
+                    </small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

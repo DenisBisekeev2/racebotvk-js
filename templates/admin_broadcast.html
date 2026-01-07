@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Рассылка - Админ-панель{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                <h4 class="mb-0"><i class="fas fa-bullhorn"></i> Рассылка сообщений</h4>
+                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-sm btn-outline-light">
+                    <i class="fas fa-arrow-left"></i> Назад
+                </a>
+            </div>
+            <div class="card-body">
+                <form id="broadcastForm">
+                    <div class="mb-3">
+                        <label for="broadcastMessage" class="form-label">Сообщение для рассылки:</label>
+                        <textarea class="form-control" id="broadcastMessage" name="message" rows="6" 
+                                  placeholder="Введите текст сообщения для рассылки..." required></textarea>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        Сообщение будет отправлено во все чаты, где есть бот.
+                    </div>
+                    
+                    <div class="d-grid gap-2">
+                        <button type="button" onclick="sendBroadcast()" class="btn btn-success btn-lg">
+                            <i class="fas fa-paper-plane"></i> Отправить рассылку
+                        </button>
+                    </div>
+                </form>
+                
+                <div id="resultAlert" class="alert mt-3" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function sendBroadcast() {
+    const message = document.getElementById('broadcastMessage').value;
+    const sendBtn = document.querySelector('button[onclick="sendBroadcast()"]');
+    const resultAlert = document.getElementById('resultAlert');
+    
+    if (!message.trim()) {
+        resultAlert.className = 'alert alert-danger';
+        resultAlert.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Введите сообщение';
+        resultAlert.style.display = 'block';
+        return;
+    }
+    
+    sendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Отправка...';
+    sendBtn.disabled = true;
+    
+    const formData = new FormData();
+    formData.append('message', message);
+    
+    fetch('/admin/send_broadcast', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            resultAlert.className = 'alert alert-success';
+            resultAlert.innerHTML = `<i class="fas fa-check-circle"></i> Рассылка отправлена! Доставлено в ${data.sent_count} чатов`;
+        } else {
+            resultAlert.className = 'alert alert-danger';
+            resultAlert.innerHTML = `<i class="fas fa-exclamation-triangle"></i> Ошибка: ${data.error}`;
+        }
+        resultAlert.style.display = 'block';
+    })
+    .catch(error => {
+        resultAlert.className = 'alert alert-danger';
+        resultAlert.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Ошибка соединения';
+        resultAlert.style.display = 'block';
+    })
+    .finally(() => {
+        sendBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Отправить рассылку';
+        sendBtn.disabled = false;
+    });
+}
+</script>
+{% endblock %}
