@@ -1,7 +1,7 @@
 const { VK, Keyboard } = require('vk-io');
 const fs = require('fs-extra');
 const path = require('path');
-
+const express = require('express'); 
 // Конфигурация
 const CONFIG = {
     BOT_TOKEN: 'vk1.a.MTzBXxQQyLu72tOMdVYarZLJ3yOOmHXJ2d-MIyWIw55LLJnAryrh1ueQTmh7lsmNXYYyLaU8c59brz9S2gBZ1YK_5HYujr809X2mn7N8OlHwOGiIVOzRJJQ1f_9tjsCquwGdHcKKBQ94Bx1TjKl3hQOX0iLel_1FNwgJ7ycrrK2efdNyrdXlqb31SpXpFk_ChGJDWnLnU6moOlIsVKQvtA',
@@ -3389,4 +3389,86 @@ process.on('uncaughtException', (error) => {
 });
 
 // Запуск бота
-startBot();
+// Веб-сервер для Render
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.get('/', (req, res) => {
+    res.json({
+        status: 'online',
+        bot: 'VK Race Bot',
+        uptime: process.uptime(),
+        timestamp: new Date().toISOString()
+    });
+});
+
+app.get('/health', (req, res) => {
+    const usersData = Utils.loadData('users.json');
+    const chatsData = Utils.loadData('chats.json');
+    
+    res.json({
+        status: 'ok',
+        bot_status: 'running',
+        users_count: Object.keys(usersData.users || {}).length,
+        chats_count: Object.keys(chatsData.chats || {}).length,
+        memory: process.memoryUsage()
+    });
+});
+// Функция самопинга для Render
+async function startSelfPing() {
+    const RENDER_URL = process.env.RENDER_URL;
+    
+    if (!RENDER_URL) {
+        console.log('⚠️ RENDER_URL не указан. Самопинг не активирован.');
+        console.log('ℹ️ Укажите переменную окружения RENDER_URL в настройках Render');
+        return;
+    }
+    
+    console.log(`🔗 URL для самопинга: ${RENDER_URL}`);
+    
+    // Пингуем каждые 5 минут (300000 мс)
+    setInterval(async () => {
+        try {
+            const axios = require('axios');
+            const response = await axios.get(RENDER_URL);
+            console.log(`🔄 Самопинг: ${response.status} - ${new Date().toLocaleTimeString()}`);
+        } catch (error) {
+            console.error('❌ Ошибка самопинга:', error.message);
+        }
+    }, 5 * 60 * 1000); // 5 минут
+    
+    // Пингуем сразу после запуска
+    try {
+        const axios = require('axios');
+        await axios.get(RENDER_URL);
+        console.log('✅ Первый пинг выполнен успешно');
+    } catch (error) {
+        console.error('❌ Первый пинг не удался:', error.message);
+    }
+}
+
+
+async function initializeApp() {
+    try {
+        // Запускаем веб-сервер
+        app.listen(PORT, () => {
+            console.log(`🚀 Веб-сервер запущен на порту ${PORT}`);
+            console.log(`🌐 Health check: http://localhost:${PORT}/health`);
+        });
+
+        // Запускаем самопинг
+        await startSelfPing();
+
+        // Запускаем бота
+        await startBot();
+        
+    } catch (error) {
+        console.error('❌ Ошибка запуска приложения:', error);
+        process.exit(1);
+    }
+}
+// Запуск веб-сервера и бота
+
+
+
+initializeApp();
