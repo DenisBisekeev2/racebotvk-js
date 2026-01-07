@@ -1,0 +1,34 @@
+{
+  "chats": {
+    "2000000001": {
+      "title": "названия чата отсутствует",
+      "premium": true,
+      "registered_date": "2025-11-08T22:33:15.849756",
+      "total_races": 0
+    },
+    "2000000002": {
+      "title": "Rodrigo  News  | Администраторы",
+      "premium": true,
+      "registered_date": "2025-11-09T16:29:04.748657",
+      "total_races": 0
+    },
+    "2000000003": {
+      "title": "🏎 Бот Гонка | Общий чат 💬 ",
+      "premium": false,
+      "registered_date": "2025-11-10T09:16:04.944723",
+      "total_races": 0
+    },
+    "2000000005": {
+      "title": "Race Bot | Модерация",
+      "premium": false,
+      "registered_date": "2025-11-12T18:54:00.373551",
+      "total_races": 0
+    },
+    "2000000008": {
+      "title": "алалал",
+      "premium": false,
+      "registered_date": "2025-11-15T15:04:18.515351",
+      "total_races": 0
+    }
+  }
+}

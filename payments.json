@@ -1,0 +1,130 @@
+{
+  "payments": {
+    "819016396_starter_1763205301": {
+      "user_id": "819016396",
+      "package_type": "starter",
+      "amount": 100,
+      "status": "pending",
+      "created_at": "2025-11-15T11:15:02.264715",
+      "payment_url": "https://yoomoney.ru/quickpay/confirm.xml?receiver=4100119211392665&quickpay-form=shop&targets=Донат:%20Стартовый%20набор&paymentType=SB&sum=100&label=819016396_starter_1763205301&successURL=https://racebotvk.pythonanywhere.com/payment_success"
+    },
+    "819016396_starter_1763205520": {
+      "user_id": "819016396",
+      "package_type": "starter",
+      "amount": 100,
+      "status": "pending",
+      "created_at": "2025-11-15T11:18:42.104482",
+      "payment_url": "https://yoomoney.ru/quickpay/confirm.xml?receiver=4100119211392665&quickpay-form=shop&targets=Донат:%20Стартовый%20набор&paymentType=SB&sum=1&label=819016396_starter_1763205520&successURL=https://racebotvk.pythonanywhere.com/payment_success"
+    },
+    "819016396_starter_1763205669": {
+      "user_id": "819016396",
+      "package_type": "starter",
+      "amount": 100,
+      "status": "pending",
+      "created_at": "2025-11-15T11:21:09.949861",
+      "payment_url": "https://yoomoney.ru/quickpay/confirm.xml?receiver=4100119211392665&quickpay-form=shop&targets=Донат:%20Стартовый%20набор&paymentType=SB&sum=2&label=819016396_starter_1763205669&successURL=https://racebotvk.pythonanywhere.com/payment_success"
+    },
+    "819016396_starter_1763206490": {
+      "user_id": "819016396",
+      "package_type": "starter",
+      "amount": 100,
+      "status": "pending",
+      "created_at": "2025-11-15T11:34:50.898724",
+      "payment_url": "https://yoomoney.ru/quickpay/confirm.xml?receiver=4100119211392665&quickpay-form=shop&targets=Донат:%20Стартовый%20набор&paymentType=SB&sum=2&label=819016396_starter_1763206490&successURL=https://racebotvk.pythonanywhere.com/payment_success"
+    },
+    "819016396_starter_1763207007": {
+      "user_id": "819016396",
+      "package_type": "starter",
+      "amount": 100,
+      "status": "pending",
+      "created_at": "2025-11-15T11:43:28.267284",
+      "payment_url": "https://yoomoney.ru/quickpay/confirm.xml?receiver=4100119211392665&quickpay-form=shop&targets=Донат:%20Стартовый%20набор&paymentType=SB&sum=100&label=819016396_starter_1763207007&successURL=https://racebotvk.pythonanywhere.com/payment_success",
+      "applied": false
+    },
+    "819016396_starter_1763207076": {
+      "user_id": "819016396",
+      "package_type": "starter",
+      "amount": 100,
+      "status": "pending",
+      "created_at": "2025-11-15T11:44:37.141780",
+      "payment_url": "https://yoomoney.ru/quickpay/confirm.xml?receiver=4100119211392665&quickpay-form=shop&targets=Донат:%20Стартовый%20набор&paymentType=SB&sum=2&label=819016396_starter_1763207076&successURL=https://racebotvk.pythonanywhere.com/payment_success",
+      "applied": false
+    },
+    "819016396_starter_1763209082": {
+      "user_id": "819016396",
+      "package_type": "starter",
+      "amount": 100,
+      "status": "completed",
+      "created_at": "2025-11-15T12:18:03.092563",
+      "payment_url": "https://yoomoney.ru/quickpay/confirm.xml?receiver=4100119211392665&quickpay-form=shop&targets=Донат:%20Стартовый%20набор&paymentType=SB&sum=2&label=819016396_starter_1763209082&successURL=https://racebotvk.pythonanywhere.com/payment_success",
+      "applied": true,
+      "completed_at": "2025-11-15T12:22:13.109021"
+    },
+    "819016396_money_1763211072": {
+      "user_id": "819016396",
+      "package_type": "money",
+      "amount": 1,
+      "status": "pending",
+      "created_at": "2025-11-15T12:51:13.720453",
+      "payment_url": "https://yoomoney.ru/quickpay/confirm.xml?receiver=4100119211392665&quickpay-form=shop&targets=Донат:%20Деньги&paymentType=SB&sum=1&label=819016396_money_1763211072&successURL=https://racebotvk.pythonanywhere.com/payment_success",
+      "applied": false
+    },
+    "money_819016396_100000_1763211123": {
+      "user_id": "819016396",
+      "package_type": "money_custom",
+      "custom_money": 100000,
+      "amount": 2000,
+      "status": "pending",
+      "created_at": "2025-11-15T12:52:04.805055",
+      "payment_url": "https://yoomoney.ru/quickpay/confirm.xml?receiver=4100119211392665&quickpay-form=shop&targets=Донат:%20Покупка%20100000₽&paymentType=SB&sum=2000&label=money_819016396_100000_1763211123&successURL=https://racebotvk.pythonanywhere.com/payment_success",
+      "applied": false
+    },
+    "761815201_money_1763212154": {
+      "user_id": "761815201",
+      "package_type": "money",
+      "amount": 1,
+      "status": "pending",
+      "created_at": "2025-11-15T13:09:15.773543",
+      "payment_url": "https://yoomoney.ru/quickpay/confirm.xml?receiver=4100119211392665&quickpay-form=shop&targets=Донат:%20Деньги&paymentType=SB&sum=1&label=761815201_money_1763212154&successURL=https://racebotvk.pythonanywhere.com/payment_success",
+      "applied": false
+    },
+    "819016396_starter_1763218817": {
+      "user_id": "819016396",
+      "package_type": "starter",
+      "amount": 100,
+      "status": "pending",
+      "created_at": "2025-11-15T15:00:18.073090",
+      "payment_url": "https://yoomoney.ru/quickpay/confirm.xml?receiver=4100119211392665&quickpay-form=shop&targets=Донат:%20Стартовый%20набор&paymentType=SB&sum=100&label=819016396_starter_1763218817&successURL=https://racebotvk.pythonanywhere.com/payment_success",
+      "applied": false
+    },
+    "819016396_starter_1763220330": {
+      "user_id": "819016396",
+      "package_type": "starter",
+      "amount": 100,
+      "status": "pending",
+      "created_at": "2025-11-15T15:25:31.476141",
+      "payment_url": "https://yoomoney.ru/quickpay/confirm.xml?receiver=4100119211392665&quickpay-form=shop&targets=Донат:%20Стартовый%20набор&paymentType=SB&sum=100&label=819016396_starter_1763220330&successURL=https://racebotvk.pythonanywhere.com/payment_success",
+      "applied": false
+    },
+    "money_819016396_1000000_1763229306": {
+      "user_id": "819016396",
+      "package_type": "money_custom",
+      "custom_money": 1000000,
+      "amount": 20000,
+      "status": "pending",
+      "created_at": "2025-11-15T17:55:06.994368",
+      "payment_url": "https://yoomoney.ru/quickpay/confirm.xml?receiver=4100119211392665&quickpay-form=shop&targets=Донат:%20Покупка%201000000₽&paymentType=SB&sum=20000&label=money_819016396_1000000_1763229306&successURL=https://racebotvk.pythonanywhere.com/payment_success",
+      "applied": false
+    },
+    "811081480_vip_1763293031": {
+      "user_id": "811081480",
+      "package_type": "vip",
+      "amount": 1000,
+      "status": "pending",
+      "created_at": "2025-11-16T11:37:12.673406",
+      "payment_url": "https://yoomoney.ru/quickpay/confirm.xml?receiver=4100119211392665&quickpay-form=shop&targets=Донат:%20VIP%20набор&paymentType=SB&sum=1000&label=811081480_vip_1763293031&successURL=https://racebotvk.pythonanywhere.com/payment_success",
+      "applied": false
+    }
+  },
+  "last_check": 0
+}

@@ -1,0 +1,70 @@
+{
+  "klans": {
+    "1": {
+      "name": "admins",
+      "tag": "ADM",
+      "creator_id": 819016396,
+      "members": {
+        "819016396": {
+          "username": "Денис І І Бисекеев",
+          "role": "leader",
+          "join_date": "2025-11-12T19:37:30.149679"
+        },
+        "761815201": {
+          "username": "Никита Ивлев",
+          "role": "member",
+          "join_date": "2025-11-13T04:43:15.136241"
+        }
+      },
+      "created_date": "2025-11-12T19:37:30.149695",
+      "level": 1,
+      "exp": 0,
+      "wins": 0,
+      "losses": 0,
+      "description": "Новый гоночный клан"
+    },
+    "3": {
+      "name": "shomateam",
+      "tag": "ST",
+      "creator_id": 829469882,
+      "members": {
+        "829469882": {
+          "username": "'shoma' 'ebetcapt'",
+          "role": "leader",
+          "join_date": "2025-11-13T00:41:18.410701"
+        }
+      },
+      "created_date": "2025-11-13T00:41:18.410718",
+      "level": 1,
+      "exp": 0,
+      "wins": 0,
+      "losses": 0,
+      "description": "Новый гоночный клан"
+    },
+    "4": {
+      "name": "jetcar",
+      "tag": "GTCAR",
+      "creator_id": 643218783,
+      "members": {
+        "643218783": {
+          "username": "Женёк Прихотулька",
+          "role": "leader",
+          "join_date": "2025-11-13T04:19:09.946221"
+        },
+        "662424028": {
+          "username": "Егор Егорович",
+          "role": "member",
+          "join_date": "2025-11-13T06:56:04.091669"
+        }
+      },
+      "created_date": "2025-11-13T04:19:09.946238",
+      "level": 1,
+      "exp": 0,
+      "wins": 0,
+      "losses": 0,
+      "description": "Новый гоночный клан"
+    }
+  },
+  "klan_battles": {},
+  "next_klan_id": 5
+}

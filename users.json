@@ -1,0 +1,290 @@
+{
+  "users": {
+    "22753962": {
+      "username": "Ирина Басанская",
+      "money": 600,
+      "exp": 30,
+      "level": 1,
+      "cars": {
+        "1": {
+          "name": "Lada Vesta",
+          "hp": 106,
+          "max_speed": 180,
+          "tire_health": 100,
+          "durability": 100,
+          "bought_date": "2025-11-15T15:04:26.284598"
+        }
+      },
+      "active_car": null,
+      "referral_code": "ref_22753962",
+      "referred_by": null,
+      "pistons": 0
+    },
+    "471545793": {
+      "username": "Елизавета Чужакина",
+      "money": 650,
+      "exp": 35,
+      "level": 1,
+      "cars": {
+        "1": {
+          "name": "Lada Vesta",
+          "hp": 106,
+          "max_speed": 180,
+          "tire_health": 100,
+          "durability": 100,
+          "bought_date": "2025-11-09T16:58:14.376223"
+        }
+      },
+      "active_car": null,
+      "referral_code": "ref_471545793",
+      "referred_by": null,
+      "pistons": 0
+    },
+    "622713364": {
+      "username": "’’delete ’’",
+      "money": 5000,
+      "exp": 0,
+      "level": 1,
+      "cars": {},
+      "active_car": 1,
+      "referral_code": "ref_622713364",
+      "referred_by": null,
+      "pistons": 0
+    },
+    "630769570": {
+      "username": "’’michael ’’",
+      "money": 1050,
+      "exp": 50,
+      "level": 2,
+      "cars": {
+        "1": {
+          "name": "Lada Vesta",
+          "hp": 1000,
+          "max_speed": 180,
+          "tire_health": 100,
+          "durability": 100,
+          "bought_date": "2025-11-09T16:36:56.940692"
+        }
+      },
+      "active_car": "1",
+      "referral_code": "ref_630769570",
+      "referred_by": null,
+      "pistons": 0
+    },
+    "643218783": {
+      "username": "Женёк Прихотулька",
+      "money": 35300,
+      "exp": 20,
+      "level": 13,
+      "active_car": "1",
+      "referral_code": "ref_643218783",
+      "referred_by": null,
+      "pistons": 0,
+      "cars": {
+        "1": {
+          "name": "Lada Vesta",
+          "hp": 106,
+          "max_speed": 207,
+          "tire_health": 100,
+          "durability": 100,
+          "bought_date": "2025-11-14T12:45:06.531655"
+        }
+      }
+    },
+    "662424028": {
+      "username": "Егор Егорович",
+      "money": 5000,
+      "exp": 0,
+      "level": 0,
+      "active_car": "2",
+      "referral_code": "ref_662424028",
+      "referred_by": null,
+      "pistons": 0,
+      "cars": {}
+    },
+    "761815201": {
+      "username": "Никита Ивлев",
+      "money": 1993910,
+      "exp": 5,
+      "level": 14,
+      "cars": {
+        "1": {
+          "name": "Lada Vesta",
+          "hp": 127,
+          "max_speed": 207,
+          "tire_health": 100,
+          "durability": 100,
+          "bought_date": "2025-11-10T17:50:24.768849"
+        },
+        "2": {
+          "name": "Kia Rio",
+          "hp": 214,
+          "max_speed": 275,
+          "tire_health": 100,
+          "durability": 100,
+          "bought_date": "2025-11-10T19:22:42.729647"
+        },
+        "3": {
+          "name": "Porsche 911",
+          "hp": 385,
+          "max_speed": 293,
+          "tire_health": 100,
+          "durability": 100,
+          "bought_date": "2025-11-11T16:16:28.666958"
+        },
+        "4": {
+          "name": "Ferrari F8",
+          "hp": 514231,
+          "max_speed": 14171,
+          "tire_health": 100,
+          "durability": 100,
+          "bought_date": "2025-11-12T04:46:36.210876"
+        }
+      },
+      "active_car": "4",
+      "referral_code": "ref_761815201",
+      "referred_by": null,
+      "pistons": 0,
+      "car_colors": {
+        "1": "#808080",
+        "4": "#FFFF00"
+      }
+    },
+    "811081480": {
+      "username": "Конон К",
+      "money": 3491000,
+      "exp": 50,
+      "level": 1,
+      "cars": {
+        "1": {
+          "name": "Lada Vesta",
+          "hp": 106,
+          "max_speed": 180,
+          "tire_health": 100,
+          "durability": 100,
+          "bought_date": "2025-11-16T11:44:54.097122"
+        },
+        "2": {
+          "name": "Ferrari F8",
+          "hp": 871,
+          "max_speed": 374,
+          "tire_health": 100,
+          "durability": 100,
+          "bought_date": "2025-11-16T13:43:28.473545"
+        }
+      },
+      "active_car": "2",
+      "referral_code": "ref_811081480",
+      "referred_by": null,
+      "pistons": 0
+    },
+    "819016396": {
+      "username": "Денис І І Бисекеев",
+      "money": 38468,
+      "exp": 55,
+      "level": 12,
+      "cars": {
+        "1": {
+          "name": "Lada Vesta",
+          "hp": 1000,
+          "max_speed": 180,
+          "tire_health": 100,
+          "durability": 100,
+          "bought_date": "2025-11-09T16:34:05.308001"
+        },
+        "2": {
+          "name": "Ferrari F8",
+          "hp": 720,
+          "max_speed": 340,
+          "tire_health": 100,
+          "durability": 100,
+          "bought_date": "2025-11-09T17:45:24.084942"
+        }
+      },
+      "active_car": "1",
+      "referral_code": "ref_819016396",
+      "referred_by": null,
+      "pistons": 0,
+      "car_colors": {
+        "1": "#008000"
+      },
+      "mechanic_exp": 46
+    },
+    "829469882": {
+      "username": "'shoma' 'ebetcapt'",
+      "money": 4320,
+      "exp": 70,
+      "level": 11,
+      "cars": {
+        "1": {
+          "name": "Lada Vesta",
+          "hp": 106,
+          "max_speed": 180,
+          "tire_health": 100,
+          "durability": 100,
+          "bought_date": "2025-11-10T22:38:48.487974"
+        },
+        "2": {
+          "name": "Hyundai Solaris",
+          "hp": 214,
+          "max_speed": 297,
+          "tire_health": 100,
+          "durability": 100,
+          "bought_date": "2025-11-15T10:57:04.410499"
+        }
+      },
+      "active_car": "2",
+      "referral_code": "ref_829469882",
+      "referred_by": null,
+      "pistons": 0
+    },
+    "847501748": {
+      "username": "Ернар Тукенов",
+      "money": 3101,
+      "exp": 25,
+      "level": 13,
+      "cars": {
+        "1": {
+          "name": "Lada Vesta",
+          "hp": 106,
+          "max_speed": 227,
+          "tire_health": 100,
+          "durability": 100,
+          "bought_date": "2025-11-09T17:31:50.797135"
+        },
+        "2": {
+          "name": "Kia Rio",
+          "hp": 135,
+          "max_speed": 228,
+          "tire_health": 100,
+          "durability": 100,
+          "bought_date": "2025-11-14T15:54:02.022288"
+        }
+      },
+      "active_car": "2",
+      "referral_code": "ref_847501748",
+      "referred_by": null,
+      "pistons": 0
+    },
+    "865570943": {
+      "username": "'tramp' 'stoyn'",
+      "money": 600,
+      "exp": 30,
+      "level": 1,
+      "cars": {
+        "1": {
+          "name": "Lada Vesta",
+          "hp": 106,
+          "max_speed": 180,
+          "tire_health": 100,
+          "durability": 100,
+          "bought_date": "2025-11-11T19:13:04.511695"
+        }
+      },
+      "active_car": "1",
+      "referral_code": "ref_865570943",
+      "referred_by": null,
+      "pistons": 0
+    }
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "cars_shop": {
+    "1": {"name": "Lada Vesta", "price": 5000, "hp": 106, "max_speed": 180, "tire_health": 100, "durability": 100},
+    "2": {"name": "Kia Rio", "price": 15000, "hp": 123, "max_speed": 190, "tire_health": 100, "durability": 100},
+    "3": {"name": "Hyundai Solaris", "price": 18000, "hp": 123, "max_speed": 195, "tire_health": 100, "durability": 100},
+    "4": {"name": "BMW 3 Series", "price": 50000, "hp": 184, "max_speed": 240, "tire_health": 100, "durability": 100},
+    "5": {"name": "Mercedes C-Class", "price": 60000, "hp": 204, "max_speed": 250, "tire_health": 100, "durability": 100},
+    "6": {"name": "Audi A4", "price": 55000, "hp": 190, "max_speed": 245, "tire_health": 100, "durability": 100},
+    "7": {"name": "Porsche 911", "price": 200000, "hp": 385, "max_speed": 293, "tire_health": 100, "durability": 100},
+    "8": {"name": "Ferrari F8", "price": 500000, "hp": 720, "max_speed": 340, "tire_health": 100, "durability": 100}
+  }
+}

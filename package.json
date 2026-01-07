@@ -1,0 +1,24 @@
+{
+  "name": "race-bot-vk",
+  "version": "1.0.0",
+  "description": "VK Racing Bot on Node.js",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "dependencies": {
+    "vk-io": "^4.0.0-rc.39",
+    "fs-extra": "^11.2.0",
+    "axios": "^1.6.0",
+    "moment": "^2.29.4",
+    "node-cron": "^3.0.3",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
